@@ -10,15 +10,53 @@ password_hash = pylast.md5("0G&vr6fAX")
 
 network = pylast.LastFMNetwork(api_key = API_KEY)
 
+per = pylast.PERIOD_OVERALL
+
 class CustomUser(pylast.User):
     def __init__(self, *args, **kwargs):
         super(CustomUser, self).__init__(*args, **kwargs)
+    def input():
+        while True:
+            num = int(input("Possible values: \n1. PERIOD_OVERALL \n2. PERIOD_7DAYS \n3. PERIOD_1MONTH  \n4. PERIOD_3MONTHS \n5. PERIOD_6MONTHS \n6. PERIOD_12MONTHS\n"))
+            if 1 <= num <= 6:
+                global per
+                print ('Value selected')
+                if num == 1:
+                    per = pylast.PERIOD_OVERALL
+                    print ('All')
+                    #break
+                if num == 2:
+                    per = pylast.PERIOD_7DAYS
+                    print ('7 days')
+                    #break
+                if num == 3:
+                    per = pylast.PERIOD_1MONTH
+                    print ('1 month')
+                    #break
+                if num == 4:
+                    per = pylast.PERIOD_3MONTHS
+                    print ('3 months')
+                    #break
+                if num == 5:
+                    per = pylast.PERIOD_6MONTHS
+                    print ('6 months')
+                    #break
+                if num == 6:
+                    per = pylast.PERIOD_12MONTHS
+                    print ('12 months')
+                    #break
+
+                break
+        else:
+            print ('number out of range')
+
+
 
     def _get_things(
         self, method, thing, thing_type, params=None, cacheable=True
     ):
-        """Returns a list of the most played thing_types by this thing."""
 
+        """Returns a list of the most played thing_types by this thing."""
         from pylast import TopItem, _extract, _number
         doc = self._request(
             self.ws_prefix + "." + method, cacheable, params)
@@ -39,8 +77,13 @@ class CustomUser(pylast.User):
 
         return seq, total_pages
 
+        #print("Possible values: \no PERIOD_OVERALL \no PERIOD_7DAYS \no PERIOD_1MONTH  \no PERIOD_3MONTHS o PERIOD_6MONTHS \no PERIOD_12MONTHS")
+        #type(per)
+
+
+    input()
     def get_top_tracks(
-            self, period=pylast.PERIOD_3MONTHS, limit=1, page=1, cacheable=True):
+            self, period=per, limit=1, page=1, cacheable=True):
         """Returns the top tracks played by a user.
         * period: The period of time. Possible values:
           o PERIOD_OVERALL
@@ -62,7 +105,7 @@ class CustomUser(pylast.User):
 
 my_user = CustomUser('Parth_M', network)
 params = my_user._get_params()
-params['period'] = pylast.PERIOD_3MONTHS
+params['period'] = pylast.PERIOD_1MONTH
 params['limit'] = 1
 
 

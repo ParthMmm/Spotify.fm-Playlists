@@ -86,10 +86,6 @@ if token:
 			print("Added 30 songs")
 	else:
 			print("Missing " + str(30-b) + " song(s)")			
-			
-		
-		
-
 
 else:
 	print("exit")
