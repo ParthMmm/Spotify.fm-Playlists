@@ -2,6 +2,8 @@
 
 import spotipy
 import sys
+import datetime
+
 from spotipy.oauth2 import SpotifyClientCredentials
 
 client_credentials_manager = SpotifyClientCredentials(client_id='f9b8bb5c5e264be2be7f76fca58e2a72',
@@ -13,7 +15,12 @@ spotify = spotipy.Spotify(
 username = 'Parth.M'  # your username (not an email address)
 
 createnewplaylist = True  # Set this to true to create a new playlist with the name below; set this to false to use an already created playlist, and follow instructions below
-newplaylistname = 'top'
+newplaylistname = 'Top'
+
+date = str(datetime.datetime.today().strftime('%m-%d-%y'))
+description = 'Automatically generated ' + date
+
+
 # If using an already existing playlist, go to Spotify and right click on a playlist and select "Copy Spotify URI". Paste the value below, keeping only the numbers at the end of the URI
 oldplaylistID = '3uEcg6o2uf2ijoyeRj3zLiF'
 
@@ -42,51 +49,57 @@ myAuth = "Bearer " + token
 notfound = []
 b = 0
 if token:
-	sp = spotipy.Spotify(auth=token)
+    sp = spotipy.Spotify(auth=token)
 
-	if createnewplaylist:
-		r = sp.user_playlist_create(username, newplaylistname, False)
-		playlistID = r['id']
-	else:
-		playlistID = oldplaylistID
+    if createnewplaylist:
+        r = sp.user_playlist_create(username, newplaylistname, False, description)
 
-	for line in data:
-		l = line.split(delim)
-		# If you have any characters after your track title before your delimiter, add [:-1] (where 1 is equal to the number of additional characters)
-		trackTitle = l[0]
-		# [:-1] removes the newline at the end of every line. Make this [:-2] if you also have a space at the end of each line
-		artist = l[1][:-1]
+        playlistID = r['id']
+        sp.user_playlist_change_details(username, playlistID, newplaylistname, False, False, description)
+        #sp.user_playlist_change_details(username, playlistID, newplaylistname, description)
+        #sp.user_playlist_change_details(username, playlistID, name=newplaylistname, public=None, collaborative=None, description=description)
 
-		#art = artist.replace('e','e')
-		#trk = trackTitle.replace('®','')
-		art = artist
-		trk = trackTitle
-		q = '{} {}'.format(art, trk)
-		
 
-		r = sp.search(q=q)
-		
-		a=0
-	
-		for track in r['tracks']['items']:
-			a+=1
-			b+=1
-			
-			artists =[r['tracks']['items'][0]['name']]
-		
-			track_id = [r['tracks']['items'][0]['uri']]
-			sp.user_playlist_add_tracks(username, playlistID, track_id)
-			
-			output = str("Added " + trk + " by " + art)
-			print(output)
-			
-			if a == 1:
-				break
-	if b == 30:
-			print("Added 30 songs")
-	else:
-			print("Missing " + str(30-b) + " song(s)")			
+    else:
+        playlistID = oldplaylistID
+
+    for line in data:
+        l = line.split(delim)
+        # If you have any characters after your track title before your delimiter, add [:-1] (where 1 is equal to the number of additional characters)
+        trackTitle = l[0]
+        # [:-1] removes the newline at the end of every line. Make this [:-2] if you also have a space at the end of each line
+        artist = l[1][:-1]
+
+        #art = artist.replace('e','e')
+        #trk = trackTitle.replace('®','')
+        art = artist
+        trk = trackTitle
+        q = '{} {}'.format(art, trk)
+
+
+        r = sp.search(q=q)
+
+        a=0
+
+        for track in r['tracks']['items']:
+            a+=1
+            b+=1
+
+            artists =[r['tracks']['items'][0]['name']]
+
+            track_id = [r['tracks']['items'][0]['uri']]
+            sp.user_playlist_add_tracks(username, playlistID, track_id)
+
+            output = str("Added " + trk + " by " + art)
+            print(output)
+
+            if a == 1:
+                break
+    if b == 30:
+            print("Added 30 songs")
+
+    else:
+            print("Missing " + str(30-b) + " song(s)")
 
 else:
-	print("exit")
-		
+    print("exit")
