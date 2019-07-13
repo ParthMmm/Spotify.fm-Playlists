@@ -18,7 +18,7 @@ createnewplaylist = True  # Set this to true to create a new playlist with the n
 newplaylistname = 'Top'
 
 date = str(datetime.datetime.today().strftime('%m-%d-%y'))
-description = 'Automatically generated ' + date
+description = 'Automatically generated ' + date + 'beep boop'
 
 
 # If using an already existing playlist, go to Spotify and right click on a playlist and select "Copy Spotify URI". Paste the value below, keeping only the numbers at the end of the URI
@@ -41,7 +41,8 @@ import requests
 scope = 'user-library-read playlist-modify-public playlist-modify-private'
 
 data = open(dataFile).readlines()
-
+#period = open(dataFile).readline().rstrip()
+#print(period)
 token = util.prompt_for_user_token(username, scope, client_id=my_client_id,
                                    client_secret=my_client_secret, redirect_uri='http://localhost:8888/callback')
 myAuth = "Bearer " + token

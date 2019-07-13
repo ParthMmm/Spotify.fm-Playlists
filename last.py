@@ -12,6 +12,7 @@ network = pylast.LastFMNetwork(api_key = API_KEY)
 
 per = pylast.PERIOD_OVERALL
 
+
 class CustomUser(pylast.User):
     def __init__(self, *args, **kwargs):
         super(CustomUser, self).__init__(*args, **kwargs)
@@ -20,30 +21,37 @@ class CustomUser(pylast.User):
             num = int(input("Possible values: \n1. PERIOD_OVERALL \n2. PERIOD_7DAYS \n3. PERIOD_1MONTH  \n4. PERIOD_3MONTHS \n5. PERIOD_6MONTHS \n6. PERIOD_12MONTHS\n"))
             if 1 <= num <= 6:
                 global per
+                global userChoice
                 print ('Value selected')
                 if num == 1:
                     per = pylast.PERIOD_OVERALL
-                    print ('All')
+                    print ('Overall')
+                    userChoice = "Overall \n"
                     #break
                 if num == 2:
                     per = pylast.PERIOD_7DAYS
                     print ('7 days')
+                    userChoice = "7 days \n"
                     #break
                 if num == 3:
                     per = pylast.PERIOD_1MONTH
                     print ('1 month')
+                    userChoice = "1 months \n"
                     #break
                 if num == 4:
                     per = pylast.PERIOD_3MONTHS
                     print ('3 months')
+                    userChoice = "3 months \n"
                     #break
                 if num == 5:
                     per = pylast.PERIOD_6MONTHS
                     print ('6 months')
+                    userChoice = "6 months \n"
                     #break
                 if num == 6:
                     per = pylast.PERIOD_12MONTHS
                     print ('12 months')
+                    userChoice = "12 months \n"
                     #break
 
                 break
@@ -113,6 +121,8 @@ page = 1
 results,total_pages = my_user.get_top_tracks(page=page)
 print (total_pages)
 file = open("output.txt","w")
+#print(userChoice)
+#file.write(userChoice)
 while len(results) != 0:
     for track in results:
 
@@ -121,6 +131,7 @@ while len(results) != 0:
         file.write(track.item.title + " - " + str(track.item.artist) + '\n')
     page += 1
     if(page == 31):
+
         file.close()
         break
     results,total_pages = my_user.get_top_tracks(page=page)
