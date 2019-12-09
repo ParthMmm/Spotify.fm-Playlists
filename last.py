@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import pylast
+import keys as keys
 
-API_KEY = 'af8203a63267d6e7d73f184cfcfef060'
-API_SECRET = '65261b78d4f3c3452eb6bb8573ede975'
+API_KEY = keys.API_KEY
+API_SECRET = keys.API_SECRET
 
-username = "Parth_M"
-password_hash = pylast.md5("0G&vr6fAX")
+username = keys.username
+password_hash = pylast.md5(keys.password_hash)
 
 network = pylast.LastFMNetwork(api_key = API_KEY)
 

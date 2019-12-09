@@ -3,16 +3,17 @@
 import spotipy
 import sys
 import datetime
+import keys as keys
 
 from spotipy.oauth2 import SpotifyClientCredentials
 
-client_credentials_manager = SpotifyClientCredentials(client_id='f9b8bb5c5e264be2be7f76fca58e2a72',
-                                                      client_secret='3b5772c1702543b58a6a90d4cb2107fb')
+client_credentials_manager = SpotifyClientCredentials(client_id=keys.client_id,
+                                                      client_secret=keys.client_secret)
 spotify = spotipy.Spotify(
     client_credentials_manager=client_credentials_manager)
 
 
-username = 'Parth.M'  # your username (not an email address)
+username = keys.spot_username  # your username (not an email address)
 
 createnewplaylist = True  # Set this to true to create a new playlist with the name below; set this to false to use an already created playlist, and follow instructions below
 newplaylistname = 'Top'
@@ -27,8 +28,8 @@ oldplaylistID = '3uEcg6o2uf2ijoyeRj3zLiF'
 dataFile = "output.txt"
 delim = ' - '  # charecters between song title and artist in your data file; make sure this is not something that could be present in the song title or artist name
 
-my_client_id = 'f9b8bb5c5e264be2be7f76fca58e2a72'
-my_client_secret = '3b5772c1702543b58a6a90d4cb2107fb'
+my_client_id = keys.client_id
+my_client_secret = keys.client_secret
 ######
 ######
 
